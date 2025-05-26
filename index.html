@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kartu Ucapan Anniversary</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffccd5, #b3e5fc);
+      min-height: 100vh;
+      font-family: 'Playfair Display', serif;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .locket-container {
+      position: relative;
+      width: 360px;
+      height: 200px;
+      margin: 2rem auto;
+      perspective: 1000px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+    .locket-left, .locket-right {
+      width: 180px;
+      height: 180px;
+      background: #fff0f5;
+      position: absolute;
+      top: 0;
+      border: 4px solid #d4a017;
+      overflow: hidden;
+      transition: transform 1.2s ease-in-out;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .locket-left {
+      left: 0;
+      border-radius: 50% 0 0 50%;
+      transform-origin: right center;
+      transform: rotateY(0deg);
+    }
+    .locket-right {
+      right: 0;
+      border-radius: 0 50% 50% 0;
+      transform-origin: left center;
+      transform: rotateY(0deg);
+    }
+    .locket-left.open {
+      transform: rotateY(-140deg);
+    }
+    .locket-right.open {
+      transform: rotateY(140deg);
+    }
+    .locket-left img, .locket-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+    .chain {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 200px;
+      border: 4px solid #d4a017;
+      border-bottom: none;
+      border-radius: 50% 50% 0 0;
+      z-index: -1;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<audio id="background-music" loop>
+  <source src="https://vgmsite.com/soundtracks/wave-to-earth-love-fan-upload/love.mp3" type="audio/mpeg">
+  Browser kamu tidak mendukung elemen audio.
+</audio>
+
+<div id="form-section" class="bg-white bg-opacity-80 rounded-xl p-6 max-w-lg w-full shadow-xl">
+  <h1 class="text-3xl font-bold text-center text-rose-800 mb-6">Buat Kartu Ucapan Anniversary</h1>
+  <form id="input-form">
+    <label class="block mb-4">
+      <span class="text-rose-700 font-medium">Foto Kiri</span>
+      <input type="file" id="photo1" accept="image/*" required class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-rose-300">
+    </label>
+    <label class="block mb-4">
+      <span class="text-rose-700 font-medium">Foto Kanan</span>
+      <input type="file" id="photo2" accept="image/*" required class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-rose-300">
+    </label>
+    <label class="block mb-4">
+      <span class="text-rose-700 font-medium">Pesan Romantis</span>
+      <textarea id="message" rows="4" required class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-rose-300" placeholder="Tulis pesan spesial..."></textarea>
+    </label>
+    <label class="block mb-6">
+      <span class="text-rose-700 font-medium">Nama / Tanda Tangan</span>
+      <input type="text" id="signature" required class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-rose-300" placeholder="Contoh: Dari Aku">
+    </label>
+    <button type="submit" class="w-full text-white py-3 rounded-md font-medium bg-rose-500 hover:bg-rose-600">Buat Kartu</button>
+  </form>
+</div>
+
+<div id="password-section" class="hidden bg-white bg-opacity-80 rounded-xl p-6 max-w-lg w-full shadow-xl">
+  <h1 class="text-3xl font-bold text-center text-rose-800 mb-6">Masukkan Kata Sandi</h1>
+  <form id="password-form">
+    <label class="block mb-6">
+      <span class="text-rose-700 font-medium">Kata Sandi (6 Digit)</span>
+      <input type="text" id="password" maxlength="6" required class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-rose-300" placeholder="******">
+    </label>
+    <p id="error-message" class="text-red-500 text-center hidden">Kata sandi salah!</p>
+    <button type="submit" class="w-full text-white py-3 rounded-md font-medium bg-rose-500 hover:bg-rose-600">Buka Ucapan</button>
+  </form>
+</div>
+
+<div id="greeting-card" class="hidden text-center px-4 relative">
+  <div class="locket-container">
+    <div class="chain"></div>
+    <div class="locket-left">
+      <img id="photo1-preview" src="">
+    </div>
+    <div class="locket-right">
+      <img id="photo2-preview" src="">
+    </div>
+  </div>
+  <div class="mt-6 text-lg text-rose-800">
+    <p id="romantic-message" class="mb-4"></p>
+    <p id="signature-text" class="italic"></p>
+    <button onclick="localStorage.clear(); location.reload();" class="mt-4 text-sm underline text-rose-500">Reset dan Mulai Lagi</button>
+  </div>
+</div>
+
+<script>
+  const CORRECT_PASSWORD = "250525";
+
+  const message = localStorage.getItem("message");
+  const signature = localStorage.getItem("signature");
+  const photo1 = localStorage.getItem("photo1");
+  const photo2 = localStorage.getItem("photo2");
+
+  if (message && signature && photo1 && photo2) {
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('password-section').classList.remove('hidden');
+  }
+
+  document.getElementById('password-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    if (password === CORRECT_PASSWORD) {
+      document.getElementById('password-section').style.display = 'none';
+      document.getElementById('greeting-card').classList.remove('hidden');
+
+      document.getElementById('photo1-preview').src = photo1;
+      document.getElementById('photo2-preview').src = photo2;
+      document.getElementById("romantic-message").textContent = message;
+      document.getElementById("signature-text").textContent = `— ${signature}`;
+
+      const audio = document.getElementById('background-music');
+      audio.play().catch(() => {
+        document.addEventListener('click', () => audio.play(), { once: true });
+      });
+
+      setTimeout(() => {
+        document.querySelector('.locket-left').classList.add('open');
+        document.querySelector('.locket-right').classList.add('open');
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#ff6f91', '#ff9ab8', '#ffe6e6']
+        });
+      }, 500);
+    } else {
+      document.getElementById('error-message').classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('input-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const photo1File = document.getElementById('photo1').files[0];
+    const photo2File = document.getElementById('photo2').files[0];
+    const message = document.getElementById('message').value;
+    const signature = document.getElementById('signature').value;
+    const reader1 = new FileReader();
+    const reader2 = new FileReader();
+
+    reader1.onload = () => {
+      localStorage.setItem("photo1", reader1.result);
+      reader2.onload = () => {
+        localStorage.setItem("photo2", reader2.result);
+        localStorage.setItem("message", message);
+        localStorage.setItem("signature", signature);
+        location.reload(); // untuk masuk ke password screen
+      };
+      reader2.readAsDataURL(photo2File);
+    };
+    reader1.readAsDataURL(photo1File);
+  });
+</script>
+
+</body>
+</html>
