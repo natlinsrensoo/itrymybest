@@ -39,16 +39,15 @@
       overflow: hidden;
       transition: transform 1.2s ease-in-out;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     }
     .locket-left {
       left: 0;
-      clip-path: polygon(0 0, 100% 0, 100% 25%, 50% 50%, 0 100%);
       transform-origin: right center;
       transform: rotateY(0deg);
     }
     .locket-right {
       right: 0;
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 50%, 0 25%);
       transform-origin: left center;
       transform: rotateY(0deg);
     }
@@ -74,6 +73,30 @@
       border-bottom: none;
       border-radius: 50% 50% 0 0;
       z-index: -1;
+    }
+    .message {
+      color: #4a2c2a;
+      font-size: 1rem;
+      line-height: 1.5;
+      max-width: 80%;
+      margin: 1.5rem auto;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .message.show {
+      opacity: 1;
+    }
+    .signature {
+      color: #6b4e4e;
+      font-size: 1rem;
+      font-style: italic;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out 0.3s;
+    }
+    .signature.show {
+      opacity: 1;
     }
     .password-section {
       background: rgba(255, 255, 255, 0.9);
@@ -101,7 +124,7 @@
 </head>
 <body>
   <audio id="background-music" loop>
-    <source src="music.mp3" type="audio/mpeg">
+    <source src="https://raw.githubusercontent.com/natlinsrensoo/Updat-index.html/main/v4_www_y2mate.blog%20-%20wave%20to%20earth%20-%20love_(O..." type="audio/mpeg">
     Browser kamu tidak mendukung elemen audio.
   </audio>
 
@@ -121,12 +144,14 @@
     <div class="locket-container">
       <div class="chain"></div>
       <div class="locket-left">
-        <img id="photo1-preview" src="photo1.jpg">
+        <img id="photo1-preview" src="https://raw.githubusercontent.com/natlinsrensoo/Updat-index.html/main/Cupikan%20layer%202025-05-26%20104125.png">
       </div>
       <div class="locket-right">
-        <img id="photo2-preview" src="photo2.jpg">
+        <img id="photo2-preview" src="https://raw.githubusercontent.com/natlinsrensoo/Updat-index.html/main/Cupikan%20layer%202025-05-26%20104201.png">
       </div>
     </div>
+    <p class="message" id="greeting-message"></p>
+    <p class="signature" id="signature-text"></p>
   </div>
 
   <script>
@@ -141,10 +166,17 @@
 
         const locketLeft = document.querySelector('.locket-left');
         const locketRight = document.querySelector('.locket-right');
+        const messageEl = document.querySelector('.message');
+        const signatureEl = document.querySelector('.signature');
+
+        document.getElementById('greeting-message').textContent = "Setahun kita bersama dan aku masih terpesona, seperti hari pertama aku jatuh cinta padamu. Terima kasih karena sudah menjadi rumah, tempat ternyaman untuk hati ini kembali. Perjalanan kita masih sangat panjang, tapi aku percaya, sejauh apapun kita melangkah, asal bersamamu… semuanya akan terasa benar. Selamat satu tahun, cinta. Aku mencintaimu hari ini, esok, dan seterusnya.\nKamu hadir bukan hanya sebagai pasangan, tapi sebagai sahabat, penenang di hari paling kacau, dan alasan di balik semua senyumku. Dalam setahun ini, kita belajar tentang sabar, tawa, bahkan air mata—dan itu semua membuatku makin yakin, Tuhan nggak pernah salah menitipkan kamu di hidupku. Jika cinta adalah perjalanan, maka aku ingin setiap tujuannya selalu bersamamu.";
+        document.getElementById('signature-text').textContent = "Dari: Rani Nataline. S(uherman)";
 
         setTimeout(() => {
           locketLeft.classList.add('open');
           locketRight.classList.add('open');
+          messageEl.classList.add('show');
+          signatureEl.classList.add('show');
 
           confetti({
             particleCount: 100,
