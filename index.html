@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kartu Ucapan Anniversary</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -15,68 +15,103 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
     }
+
     .locket-container {
       position: relative;
-      width: 360px;
-      height: 180px;
+      width: 300px;
+      height: 300px;
       margin: 2rem auto;
       perspective: 1000px;
       animation: float 3s ease-in-out infinite;
     }
+
     @keyframes float {
-      0% { transform: translateY(0); }
+      0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-15px); }
-      100% { transform: translateY(0); }
     }
+
     .locket-left, .locket-right {
-      width: 180px;
-      height: 180px;
+      width: 150px;
+      height: 200px;
       background: #fff0f5;
       position: absolute;
-      top: 0;
+      top: 50px;
       border: 4px solid #d4a017;
       overflow: hidden;
       transition: transform 1.2s ease-in-out;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 0; /* Kotak tajam, tanpa sudut membulat */
     }
+
     .locket-left {
       left: 0;
-      border-radius: 0;
       transform-origin: right center;
       transform: rotateY(0deg);
     }
+
     .locket-right {
       right: 0;
-      border-radius: 0;
       transform-origin: left center;
       transform: rotateY(0deg);
     }
+
     .locket-left.open {
       transform: rotateY(-140deg);
     }
+
     .locket-right.open {
       transform: rotateY(140deg);
     }
+
     .locket-left img, .locket-right img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 0;
     }
+
     .chain {
       position: absolute;
       top: -100px;
       left: 50%;
       transform: translateX(-50%);
-      width: 300px;
+      width: 260px;
       height: 200px;
       border: 4px solid #d4a017;
       border-bottom: none;
       border-radius: 50% 50% 0 0;
       z-index: -1;
     }
+
+    .message {
+      color: #4a2c2a;
+      font-size: 1rem;
+      line-height: 1.5;
+      max-width: 80%;
+      margin: 1.5rem auto;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      white-space: pre-line;
+    }
+
+    .message.show {
+      opacity: 1;
+    }
+
+    .signature {
+      color: #6b4e4e;
+      font-size: 1rem;
+      font-style: italic;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out 0.3s;
+    }
+
+    .signature.show {
+      opacity: 1;
+    }
+
     .password-section {
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
@@ -86,35 +121,27 @@
       max-width: 500px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
+
     button {
       background: linear-gradient(to right, #ff6f91, #ff9ab8);
       transition: background 0.3s ease;
     }
+
     button:hover {
       background: linear-gradient(to right, #ff4d77, #ff809f);
     }
+
     input[type="text"] {
       text-align: center;
       letter-spacing: 8px;
       font-family: monospace;
-    }
-    .message-container {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border-radius: 1rem;
-      padding: 2rem;
-      width: 100%;
-      max-width: 600px;
-      margin-top: 1rem;
-      text-align: center;
-      color: #4a2e2e;
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <audio id="background-music" loop>
-    <source src="[ALAMAT_FILE_LOVE_WTE]" type="audio/mpeg">
+    <source src="https://raw.githubusercontent.com/natlinsrensoo/Update-index.html/main/love-wte.mp3" type="audio/mpeg">
     Browser kamu tidak mendukung elemen audio.
   </audio>
 
@@ -134,37 +161,42 @@
     <div class="locket-container">
       <div class="chain"></div>
       <div class="locket-left">
-        <img id="photo1-preview" src="[ALAMAT_FILE_1]">
+        <img src="https://raw.githubusercontent.com/natlinsrensoo/Update-index.html/main/1.png">
       </div>
       <div class="locket-right">
-        <img id="photo2-preview" src="[ALAMAT_FILE_2]">
+        <img src="https://raw.githubusercontent.com/natlinsrensoo/Update-index.html/main/2.png">
       </div>
     </div>
-    <div class="message-container">
-      <p class="text-lg mb-4">
-        Setahun kita bersama dan aku masih terpesona, seperti hari pertama aku jatuh hati padamu. Terima kasih karena sudah menjadi rumah, tempat ternyaman untuk hati ini kembali. Perjalanan kita masih sangat panjang, tapi aku percaya, sejauh apapun kita melangkah, asal bersamamu… semuanya akan terasa benar. Selamat satu tahun, sayang. Aku mencintaimu hari ini, esok, dan seterusnya.<br><br>
-        Kamu hadir bukan hanya sebagai pasangan, tapi sebagai sahabat, penenang di hari paling kacau, dan alasan di balik semua senyumku. Dalam setahun ini, kita belajar tentang sabar, tawa, bahkan air mata—dan itu semua membuatku makin yakin, Tuhan nggak pernah salah menitipkan kamu di hidupku. Jika cinta adalah perjalanan, maka aku ingin setiap tujuannya selalu bersamamu.
-      </p>
-      <p class="text-md font-bold">Dari: Yang tersayang Rani Nataline. S(uherman)</p>
-    </div>
+    <p class="message" id="greeting-message"></p>
+    <p class="signature" id="signature-text"></p>
   </div>
 
   <script>
-    const CORRECT_PASSWORD = "250524";
+    const CORRECT_PASSWORD = "250525";
 
     document.getElementById('password-form').addEventListener('submit', function(e) {
       e.preventDefault();
       const password = document.getElementById('password').value;
+      const error = document.getElementById('error-message');
+
       if (password === CORRECT_PASSWORD) {
         document.getElementById('password-section').style.display = 'none';
         document.getElementById('greeting-card').classList.remove('hidden');
 
         const locketLeft = document.querySelector('.locket-left');
         const locketRight = document.querySelector('.locket-right');
+        const messageEl = document.querySelector('.message');
+        const signatureEl = document.querySelector('.signature');
+
+        document.getElementById('greeting-message').textContent =
+          "Setahun kita bersama dan aku masih terpesona, seperti hari pertama aku jatuh cinta padamu. Terima kasih karena sudah menjadi rumah, tempat ternyaman untuk hati ini kembali. Perjalanan kita masih sangat panjang, tapi aku percaya, sejauh apapun kita melangkah, asal bersamamu… semuanya akan terasa benar. Selamat satu tahun, cinta. Aku mencintaimu hari ini, esok, dan seterusnya.\n\nKamu hadir bukan hanya sebagai pasangan, tapi sebagai sahabat, penenang di hari paling kacau, dan alasan di balik semua senyumku. Dalam setahun ini, kita belajar tentang sabar, tawa, bahkan air mata—dan itu semua membuatku makin yakin, Tuhan nggak pernah salah menitipkan kamu di hidupku. Jika cinta adalah perjalanan, maka aku ingin setiap tujuannya selalu bersamamu.";
+        document.getElementById('signature-text').textContent = "Dari: Rani Nataline. S(uherman)";
 
         setTimeout(() => {
           locketLeft.classList.add('open');
           locketRight.classList.add('open');
+          messageEl.classList.add('show');
+          signatureEl.classList.add('show');
 
           confetti({
             particleCount: 100,
@@ -179,7 +211,7 @@
           document.addEventListener('click', () => audio.play(), { once: true });
         });
       } else {
-        document.getElementById('error-message').classList.remove('hidden');
+        error.classList.remove('hidden');
       }
     });
   </script>
