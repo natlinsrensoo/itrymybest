@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kartu Ucapan Anniversary</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -16,6 +16,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .locket-container {
       position: relative;
       width: 300px;
@@ -24,11 +25,12 @@
       perspective: 1000px;
       animation: float 3s ease-in-out infinite;
     }
+
     @keyframes float {
-      0% { transform: translateY(0); }
+      0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-15px); }
-      100% { transform: translateY(0); }
     }
+
     .locket-left, .locket-right {
       width: 150px;
       height: 200px;
@@ -39,29 +41,35 @@
       overflow: hidden;
       transition: transform 1.2s ease-in-out;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      clip-path: path("M 75 0 Q 90 0 112.5 37.5 Q 135 75 75 150 Q 15 75 37.5 37.5 Q 60 0 75 0 Z");
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     }
+
     .locket-left {
       left: 0;
       transform-origin: right center;
       transform: rotateY(0deg);
     }
+
     .locket-right {
       right: 0;
       transform-origin: left center;
       transform: rotateY(0deg);
     }
+
     .locket-left.open {
       transform: rotateY(-140deg);
     }
+
     .locket-right.open {
       transform: rotateY(140deg);
     }
+
     .locket-left img, .locket-right img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     .chain {
       position: absolute;
       top: -100px;
@@ -74,6 +82,7 @@
       border-radius: 50% 50% 0 0;
       z-index: -1;
     }
+
     .message {
       color: #4a2c2a;
       font-size: 1rem;
@@ -83,10 +92,13 @@
       text-align: center;
       opacity: 0;
       transition: opacity 1s ease-in-out;
+      white-space: pre-line;
     }
+
     .message.show {
       opacity: 1;
     }
+
     .signature {
       color: #6b4e4e;
       font-size: 1rem;
@@ -95,9 +107,11 @@
       opacity: 0;
       transition: opacity 1s ease-in-out 0.3s;
     }
+
     .signature.show {
       opacity: 1;
     }
+
     .password-section {
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
@@ -107,13 +121,16 @@
       max-width: 500px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
+
     button {
       background: linear-gradient(to right, #ff6f91, #ff9ab8);
       transition: background 0.3s ease;
     }
+
     button:hover {
       background: linear-gradient(to right, #ff4d77, #ff809f);
     }
+
     input[type="text"] {
       text-align: center;
       letter-spacing: 8px;
@@ -123,8 +140,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <audio id="background-music" autoplay loop>
-    <source src="https://raw.githubusercontent.com/natlinsrensoo/Updat-index.html/main/v4.www-y2mate.blog%20-%20wave%20to%20earth%20-%20love.%20(Official%20Lyric%20Video)%20(320%20KBps).mp3" type="audio/mpeg">
+  <audio id="background-music" loop>
+    <source src="https://drive.google.com/uc?export=download&id=18sUd_dtP9MNSE9EVJWsHIJeL1xNpq3gt" type="audio/mpeg">
     Browser kamu tidak mendukung elemen audio.
   </audio>
 
@@ -144,10 +161,10 @@
     <div class="locket-container">
       <div class="chain"></div>
       <div class="locket-left">
-        <img src="https://raw.githubusercontent.com/natlinsrensoo/Updat-index.html/main/Cuplikan%20layar%202025-05-26%20104125.png">
+        <img src="https://drive.google.com/uc?export=download&id=1Mdh4-R87p8yVCo57Ab_6UnriL5s8vCTu">
       </div>
       <div class="locket-right">
-        <img src="https://raw.githubusercontent.com/natlinsrensoo/Updat-index.html/main/Cuplikan%20layar%202025-05-26%20104201.png">
+        <img src="https://drive.google.com/uc?export=download&id=1kOlLrSU8MzKVbNfAdCL-3rfopUnmRj_Y">
       </div>
     </div>
     <p class="message" id="greeting-message"></p>
@@ -155,11 +172,13 @@
   </div>
 
   <script>
-    const CORRECT_PASSWORD = "250525";
+    const CORRECT_PASSWORD = "250524";
 
     document.getElementById('password-form').addEventListener('submit', function(e) {
       e.preventDefault();
       const password = document.getElementById('password').value;
+      const error = document.getElementById('error-message');
+
       if (password === CORRECT_PASSWORD) {
         document.getElementById('password-section').style.display = 'none';
         document.getElementById('greeting-card').classList.remove('hidden');
@@ -169,7 +188,8 @@
         const messageEl = document.querySelector('.message');
         const signatureEl = document.querySelector('.signature');
 
-        document.getElementById('greeting-message').textContent = "Setahun kita bersama dan aku masih terpesona, seperti hari pertama aku jatuh cinta padamu. Terima kasih karena sudah menjadi rumah, tempat ternyaman untuk hati ini kembali. Perjalanan kita masih sangat panjang, tapi aku percaya, sejauh apapun kita melangkah, asal bersamamu… semuanya akan terasa benar. Selamat satu tahun, cinta. Aku mencintaimu hari ini, esok, dan seterusnya.\nKamu hadir bukan hanya sebagai pasangan, tapi sebagai sahabat, penenang di hari paling kacau, dan alasan di balik semua senyumku. Dalam setahun ini, kita belajar tentang sabar, tawa, bahkan air mata—dan itu semua membuatku makin yakin, Tuhan nggak pernah salah menitipkan kamu di hidupku. Jika cinta adalah perjalanan, maka aku ingin setiap tujuannya selalu bersamamu.";
+        document.getElementById('greeting-message').textContent =
+          "Setahun kita bersama dan aku masih terpesona, seperti hari pertama aku jatuh cinta padamu. Terima kasih karena sudah menjadi rumah, tempat ternyaman untuk hati ini kembali. Perjalanan kita masih sangat panjang, tapi aku percaya, sejauh apapun kita melangkah, asal bersamamu… semuanya akan terasa benar. Selamat satu tahun, cinta. Aku mencintaimu hari ini, esok, dan seterusnya.\n\nKamu hadir bukan hanya sebagai pasangan, tapi sebagai sahabat, penenang di hari paling kacau, dan alasan di balik semua senyumku. Dalam setahun ini, kita belajar tentang sabar, tawa, bahkan air mata—dan itu semua membuatku makin yakin, Tuhan nggak pernah salah menitipkan kamu di hidupku. Jika cinta adalah perjalanan, maka aku ingin setiap tujuannya selalu bersamamu.";
         document.getElementById('signature-text').textContent = "Dari: Rani Nataline. S(uherman)";
 
         setTimeout(() => {
@@ -191,7 +211,7 @@
           document.addEventListener('click', () => audio.play(), { once: true });
         });
       } else {
-        document.getElementById('error-message').classList.remove('hidden');
+        error.classList.remove('hidden');
       }
     });
   </script>
